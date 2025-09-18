@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public float baseGravity = 2f;
     public float maxFallSpeed = 18f;
     public float fallSpeedMultiplier = 2f;
+
+    public CoinManager cm;
     void Awake()
     {
         if (rb == null)
@@ -101,5 +103,14 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.white;
         Gizmos.DrawCube(groundCheckPos.position, groundCheckSize);
+    }
+
+     void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.CompareTag("Banh Mi"))
+        {
+            Destroy(other.gameObject);
+            cm.coinCount++;
+        }
     }
 }
