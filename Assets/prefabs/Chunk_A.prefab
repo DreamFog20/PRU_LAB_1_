@@ -406,6 +406,26 @@ MonoBehaviour:
   entryPoint: {fileID: 1893921179171603064}
   exitPoint: {fileID: 7787495194795359590}
   cachedWidth: -1
+  weight: 1
+  coinSpawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemySpawnPoints: []
+  coinPrefabs: []
+  enemyPrefabs: []
 --- !u!1 &8011641480767414204
 GameObject:
   m_ObjectHideFlags: 0
