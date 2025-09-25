@@ -167,9 +167,9 @@ RectTransform:
   - {fileID: 6873221512963732184}
   m_Father: {fileID: 3557642038071140546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 158, y: -205.4735}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 316, y: 94.2624}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4589800042400829860
@@ -268,9 +268,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3557642038071140546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 158.00002, y: -79.171}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 316, y: 158.34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6928339411152439010
@@ -322,6 +322,7 @@ GameObject:
   - component: {fileID: 3557642038071140546}
   - component: {fileID: 8379899423412638053}
   - component: {fileID: 5283349430364417928}
+  - component: {fileID: 8168713461121454944}
   m_Layer: 5
   m_Name: GameOverContainer
   m_TagString: Untagged
@@ -347,7 +348,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.002319336, y: 0.0023498535}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -0.0046387, y: 0.0046997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8379899423412638053
@@ -388,6 +389,32 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8168713461121454944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5536236263879307982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &9185186934002870708
 GameObject:
   m_ObjectHideFlags: 0

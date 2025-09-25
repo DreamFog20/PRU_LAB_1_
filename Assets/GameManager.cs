@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
             {
                 btn.onClick.AddListener(RestartGame);
             }
-            else if (btn.name.Contains("Menu"))
+            else if (btn.name.Contains("Quit"))
             {
                 btn.onClick.AddListener(GoToMainMenu);
             }
