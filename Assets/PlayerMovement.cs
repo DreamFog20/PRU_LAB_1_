@@ -3,7 +3,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Components")]
     public Rigidbody2D rb;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
 
     [Header("Movement")]
     public float moveSpeed = 5f;
@@ -11,55 +14,54 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Jumping")]
     public float jumpPower = 10f;
-    public int extraJumps = 1;   // số lần nhảy thêm (1 = double jump)
+    public int extraJumps = 1;
     private int jumpCount;
 
     [Header("Ground Check")]
     public Transform groundCheckPos;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
+
     [Header("Gravity")]
     public float baseGravity = 2f;
     public float maxFallSpeed = 18f;
     public float fallSpeedMultiplier = 2f;
+    public CoinManager cm;
     void Awake()
     {
-        if (rb == null)
-        {
-            rb = GetComponent<Rigidbody2D>();
-        }
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        if (rb != null)
-        {
-            // Di chuyển ngang
-            rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+        if (rb == null) return;
 
-            // Reset jumpCount khi chạm đất
-            if (isGrounded())
-            {
-                jumpCount = 0;
-            }
-        }
-        else
-        {
-            Debug.LogError("Rigidbody2D component not found on " + gameObject.name);
-        }
+        // Apply horizontal movement
+        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+
+        // Flip sprite based on movement direction
+        if (horizontalMovement > 0)
+            spriteRenderer.flipX = false;
+        else if (horizontalMovement < 0)
+            spriteRenderer.flipX = true;
+
+        // Update animator parameters
+        animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+        animator.SetFloat("VerticalSpeed", rb.linearVelocity.y);
+        animator.SetBool("isGrounded", isGrounded());
+
+        // Reset jump count when grounded
+        if (isGrounded())
+            jumpCount = 0;
     }
-    public void Gravity()
+
+    void FixedUpdate()
     {
-        if(rb.linearVelocity.x < 0)
-        {
-            rb.gravityScale = baseGravity * fallSpeedMultiplier;
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -maxFallSpeed));
-        }
-        else
-        {
-            rb.gravityScale = baseGravity;
-        }
+        ApplyGravity();
     }
+
     public void Move(InputAction.CallbackContext context)
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
@@ -69,26 +71,38 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            // Nếu đang trên đất → nhảy
             if (isGrounded())
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
                 rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-                jumpCount = 0; // reset
+                jumpCount = 0;
+                animator.SetTrigger("Jump");
             }
-            // Nếu chưa vượt quá số lần nhảy cho phép → double jump
             else if (jumpCount < extraJumps)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
                 rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
                 jumpCount++;
+                animator.SetTrigger("Jump");
             }
         }
 
-        // Nếu nhả phím giữa chừng thì cắt ngắn cú nhảy
         if (context.canceled && rb.linearVelocity.y > 0)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
+        }
+    }
+
+    private void ApplyGravity()
+    {
+        if (rb.linearVelocity.y < 0)
+        {
+            rb.gravityScale = baseGravity * fallSpeedMultiplier;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -maxFallSpeed));
+        }
+        else
+        {
+            rb.gravityScale = baseGravity;
         }
     }
 
@@ -101,5 +115,14 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.white;
         Gizmos.DrawCube(groundCheckPos.position, groundCheckSize);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Banh Mi"))
+        {
+            Destroy(other.gameObject);
+            cm.coinCount++;
+        }
     }
 }
