@@ -32,6 +32,23 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+		// Ensure groundCheckPos is assigned to avoid null reference exceptions
+		if (groundCheckPos == null)
+		{
+			Transform existingGroundCheck = transform.Find("GroundCheck");
+			if (existingGroundCheck != null)
+			{
+				groundCheckPos = existingGroundCheck;
+			}
+			else
+			{
+				GameObject groundCheckObject = new GameObject("GroundCheck");
+				groundCheckObject.transform.SetParent(transform);
+				groundCheckObject.transform.localPosition = new Vector3(0f, -0.6f, 0f);
+				groundCheckPos = groundCheckObject.transform;
+			}
+		}
     }
 
     void Update()
