@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private int jumpCount;
+
     [Header("Components")]
     public Rigidbody2D rb;
     private Animator animator;
@@ -15,11 +18,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jumping")]
     public float jumpPower = 10f;
     public int extraJumps = 1;
-    private int jumpCount;
 
     [Header("Ground Check")]
     public Transform groundCheckPos;
-    public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
+    public Vector2 groundCheckSize = new Vector2(0.5f, 0.3f);
     public LayerMask groundLayer;
 
     [Header("Gravity")]
@@ -67,11 +69,6 @@ public class PlayerMovement : MonoBehaviour
         // Update animator parameters
         animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
         animator.SetFloat("VerticalSpeed", rb.linearVelocity.y);
-        animator.SetBool("isGrounded", isGrounded());
-
-        // Reset jump count when grounded
-        if (isGrounded())
-            jumpCount = 0;
     }
 
     void FixedUpdate()
@@ -88,20 +85,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            if (isGrounded())
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
-                rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-                jumpCount = 0;
-                animator.SetTrigger("Jump");
-            }
-            else if (jumpCount < extraJumps)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
-                rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-                jumpCount++;
-                animator.SetTrigger("Jump");
-            }
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
+            rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            animator.SetTrigger("Jump");
         }
 
         if (context.canceled && rb.linearVelocity.y > 0)
