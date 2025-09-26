@@ -11,13 +11,18 @@ public class GameManager : MonoBehaviour
 
     [Header("Pause Menu UI")]
     public GameObject pauseMenuPrefab; // Kéo prefab PauseMenu_Prefab vào đây
-
+    AudioManager audioManager;
     // Biến trạng thái
     private bool isGameOver = false;
     private bool isPaused = false;
 
     // Tham chiếu đến menu đang được hiển thị
     private GameObject currentMenuInstance;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     // Hàm Update để lắng nghe input
     void Update()
@@ -76,6 +81,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         if (isGameOver) return;
+        audioManager.PlaySFX(audioManager.death);
 
         isGameOver = true;
         Time.timeScale = 0f;

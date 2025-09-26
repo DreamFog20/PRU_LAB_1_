@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     private int jumpCount;
+    AudioManager audioManager;
 
     [Header("Components")]
     public Rigidbody2D rb;
@@ -29,14 +30,16 @@ public class PlayerMovement : MonoBehaviour
     public float maxFallSpeed = 18f;
     public float fallSpeedMultiplier = 2f;
     public CoinManager cm;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
-		// Ensure groundCheckPos is assigned to avoid null reference exceptions
-		if (groundCheckPos == null)
+        // Ensure groundCheckPos is assigned to avoid null reference exceptions
+        if (groundCheckPos == null)
 		{
 			Transform existingGroundCheck = transform.Find("GroundCheck");
 			if (existingGroundCheck != null)
@@ -88,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             animator.SetTrigger("Jump");
+            audioManager.PlaySFX(audioManager.jump);
         }
 
         if (context.canceled && rb.linearVelocity.y > 0)
@@ -126,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
             cm.coinCount++;
+            audioManager.PlaySFX(audioManager.coin);
         }
     }
 }

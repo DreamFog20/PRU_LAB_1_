@@ -1,8 +1,8 @@
 using UnityEngine;
 using TMPro;
+using System.Security.Permissions;
 public class CoinManager : MonoBehaviour
 {
-
     public int coinCount;
     public TMP_Text coinText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
