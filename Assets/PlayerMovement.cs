@@ -36,7 +36,17 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        
+        // Find AudioManager with null check
+        GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
+        if (audioObject != null)
+        {
+            audioManager = audioObject.GetComponent<AudioManager>();
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning("No GameObject with 'Audio' tag found. AudioManager will be null.");
+        }
 
         // Ensure groundCheckPos is assigned to avoid null reference exceptions
         if (groundCheckPos == null)
@@ -91,7 +101,8 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             animator.SetTrigger("Jump");
-            audioManager.PlaySFX(audioManager.jump);
+            if (audioManager != null)
+                audioManager.PlaySFX(audioManager.jump);
         }
 
         if (context.canceled && rb.linearVelocity.y > 0)
@@ -130,7 +141,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
             cm.coinCount++;
-            audioManager.PlaySFX(audioManager.coin);
+            if (audioManager != null)
+                audioManager.PlaySFX(audioManager.coin);
         }
     }
 }

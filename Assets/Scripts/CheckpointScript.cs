@@ -13,7 +13,16 @@ public class CheckpointScript : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        // Find AudioManager with null check
+        GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
+        if (audioObject != null)
+        {
+            audioManager = audioObject.GetComponent<AudioManager>();
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning("No GameObject with 'Audio' tag found. AudioManager will be null.");
+        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -22,7 +31,8 @@ public class CheckpointScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             triggered = true;
-            audioManager.PlaySFX(audioManager.finish);
+            if (audioManager != null)
+                audioManager.PlaySFX(audioManager.finish);
 
             // Disable player input
             playerInput = other.GetComponent<PlayerInput>();

@@ -17,7 +17,16 @@ public class MotorMovement : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        // Find AudioManager with null check
+        GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
+        if (audioObject != null)
+        {
+            audioManager = audioObject.GetComponent<AudioManager>();
+        }
+        else
+        {
+            Debug.LogWarning("No GameObject with 'Audio' tag found. AudioManager will be null.");
+        }
     }
 
     void Start()
@@ -44,7 +53,8 @@ public class MotorMovement : MonoBehaviour
         {
             Vector3 target = player.position + direction * overshootDistance;
             MoveHorizontally(target);
-            audioManager.PlaySFX(audioManager.motor);
+            if (audioManager != null)
+                audioManager.PlaySFX(audioManager.motor);
 
             if (Vector3.Distance(transform.position, target) < 0.1f)
             {

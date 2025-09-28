@@ -21,7 +21,16 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        // Find AudioManager with null check
+        GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
+        if (audioObject != null)
+        {
+            audioManager = audioObject.GetComponent<AudioManager>();
+        }
+        else
+        {
+            Debug.LogWarning("No GameObject with 'Audio' tag found. AudioManager will be null.");
+        }
     }
 
     // Hàm Update để lắng nghe input
@@ -81,7 +90,8 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         if (isGameOver) return;
-        audioManager.PlaySFX(audioManager.death);
+        if (audioManager != null)
+            audioManager.PlaySFX(audioManager.death);
 
         isGameOver = true;
         Time.timeScale = 0f;
