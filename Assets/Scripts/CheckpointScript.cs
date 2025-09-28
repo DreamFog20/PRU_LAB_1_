@@ -1,54 +1,40 @@
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CheckpointScript : MonoBehaviour
 {
-    [Header("Assign the End Game Screen UI in Inspector")]
-    public GameObject endGameScreen;
-    AudioManager audioManager;
-
+    private AudioManager audioManager;
     private bool triggered = false;
-    private PlayerInput playerInput;
 
     private void Awake()
     {
-        // Find AudioManager with null check
-        GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
-        if (audioObject != null)
+        var audioObject = GameObject.FindGameObjectWithTag("Audio");
+        if (audioObject) audioManager = audioObject.GetComponent<AudioManager>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (triggered) return;
+        if (!other.CompareTag("Player")) return;
+
+        triggered = true;
+
+        if (audioManager) audioManager.PlaySFX(audioManager.finish);
+
+        // Tắt input của player (tuỳ chọn)
+        var pi = other.GetComponent<PlayerInput>();
+        if (pi) pi.enabled = false;
+
+        // >>> GỌI GameManager để xử lý finish + bật sao <<<
+        var gm = FindFirstObjectByType<GameManager>();
+        if (gm != null)
         {
-            audioManager = audioObject.GetComponent<AudioManager>();
+            Debug.Log("[Checkpoint] Reached finish -> GameManager.FinishGame()");
+            gm.FinishGame();
         }
         else
         {
-            UnityEngine.Debug.LogWarning("No GameObject with 'Audio' tag found. AudioManager will be null.");
-        }
-    }
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (triggered) return;
-
-        if (other.CompareTag("Player"))
-        {
-            triggered = true;
-            if (audioManager != null)
-                audioManager.PlaySFX(audioManager.finish);
-
-            // Disable player input
-            playerInput = other.GetComponent<PlayerInput>();
-            if (playerInput != null)
-            {
-                playerInput.enabled = false;
-            }
-
-            // Dừng game
-            Time.timeScale = 0f;
-
-            // Show end game screen
-            if (endGameScreen != null)
-            {
-                endGameScreen.SetActive(true);
-            }
+            Debug.LogError("[Checkpoint] GameManager not found!");
         }
     }
 }

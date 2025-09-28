@@ -1,20 +1,32 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
-using System.Security.Permissions;
+
 public class CoinManager : MonoBehaviour
 {
     public int coinCount;
+    public int totalCoins;
     public TMP_Text coinText;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
-        
+        // Tìm tất cả object có tag "Banh Mi"
+        totalCoins = GameObject.FindGameObjectsWithTag("Banh Mi").Length;
+        UpdateUI();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddCoin()
     {
-        coinText.text = coinCount.ToString();
-     }
+        coinCount++;
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        coinText.text = coinCount + " / " + totalCoins;
+    }
+
+    public bool CollectedAllCoins()
+    {
+        return coinCount >= totalCoins;
+    }
 }
-        

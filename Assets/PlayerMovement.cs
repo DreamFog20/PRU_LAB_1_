@@ -160,15 +160,4 @@ public class PlayerMovement : MonoBehaviour
         // Apply knockback force
         rb.linearVelocity = new Vector2(direction.x * force, direction.y * force);
     }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Banh Mi"))
-        {
-            Destroy(other.gameObject);
-            cm.coinCount++;
-            if (audioManager != null)
-                audioManager.PlaySFX(audioManager.coin);
-        }
-    }
 }

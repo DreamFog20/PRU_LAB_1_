@@ -66,4 +66,13 @@ public class Player : MonoBehaviour
             Debug.LogError("GameManager not found!");
         }
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Banh Mi"))
+        {
+            FindFirstObjectByType<CoinManager>().AddCoin();
+            Destroy(other.gameObject);
+        }
+    }
+
 }
