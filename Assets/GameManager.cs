@@ -113,6 +113,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RestartGame()
+    {
+        Time.timeScale = 1f; // Reset time scale
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
     // --- WIN GAME LOGIC ---
     public void WinGame()
@@ -144,17 +149,3 @@ public class GameManager : MonoBehaviour
     }
 
 
-    // --- BUTTON FUNCTIONS ---
-    public void RestartGame()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void GoToMainMenu()
-    {
-        // Luôn nhớ set lại timeScale trước khi chuyển scene
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Main Menu");
-    }
-}
