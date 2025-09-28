@@ -113,11 +113,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RestartGame()
-    {
-        Time.timeScale = 1f; // Reset time scale
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+
 
     // --- WIN GAME LOGIC ---
     public void WinGame()
@@ -129,7 +125,7 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         Time.timeScale = 0f; // Pause everything
 
-      
+
 
         menuPanel.SetActive(true);
         currentMenuInstance = Instantiate(gameOverMenuPrefab, menuPanel.transform);
@@ -147,5 +143,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+}
+
 
 
