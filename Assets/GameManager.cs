@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
+
     // --- WIN GAME LOGIC ---
     public void WinGame()
     {
@@ -143,8 +143,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-=======
->>>>>>> parent of 898bf5d ( endgame thì pause hết mọi thứ)
+
     // --- BUTTON FUNCTIONS ---
     public void RestartGame()
     {
