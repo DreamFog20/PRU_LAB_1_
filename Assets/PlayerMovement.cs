@@ -34,6 +34,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Knockback")]
     private bool isKnockedBack = false;
     private float knockbackTimer = 0f;
+    
+    // Tham chiếu đến CheatManager
+    private CheatManager cheatManager;
 
     void Awake()
     {
@@ -68,6 +71,12 @@ public class PlayerMovement : MonoBehaviour
 				groundCheckPos = groundCheckObject.transform;
 			}
 		}
+		
+		// Tìm CheatManager
+		if (cheatManager == null)
+		{
+			cheatManager = FindFirstObjectByType<CheatManager>();
+		}
     }
 
     void Update()
@@ -99,6 +108,12 @@ public class PlayerMovement : MonoBehaviour
         // Update animator parameters
         animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
         animator.SetFloat("VerticalSpeed", rb.linearVelocity.y);
+        
+        // Kiểm tra nếu cheat mode tắt thì bật lại collision với tất cả chướng ngại vật
+        if (cheatManager != null && !cheatManager.IsCheatModeActive())
+        {
+            ResetAllCollisions();
+        }
     }
 
     void FixedUpdate()
@@ -154,6 +169,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void ApplyKnockback(Vector2 direction, float force, float duration)
     {
+        // Kiểm tra cheat mode - nếu bật thì không bị knockback
+        if (cheatManager != null && cheatManager.IsCheatModeActive())
+        {
+            UnityEngine.Debug.Log("Cheat mode bật - không bị knockback!");
+            return;
+        }
+        
         isKnockedBack = true;
         knockbackTimer = duration;
         
@@ -169,6 +191,40 @@ public class PlayerMovement : MonoBehaviour
             cm.coinCount++;
             if (audioManager != null)
                 audioManager.PlaySFX(audioManager.coin);
+        }
+    }
+    
+    // Xử lý collision với chướng ngại vật
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Kiểm tra nếu đang trong cheat mode và va chạm với chướng ngại vật
+        if (cheatManager != null && cheatManager.IsCheatModeActive())
+        {
+            // Kiểm tra nếu đối tượng có component ObjDamage (chướng ngại vật gây sát thương)
+            if (collision.gameObject.GetComponent<ObjDamage>() != null)
+            {
+                // Đi xuyên qua chướng ngại vật bằng cách tắt collision
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider, true);
+                UnityEngine.Debug.Log("Cheat mode: Đi xuyên qua chướng ngại vật!");
+            }
+        }
+    }
+    
+    // Bật lại collision với tất cả chướng ngại vật
+    void ResetAllCollisions()
+    {
+        // Tìm tất cả chướng ngại vật có component ObjDamage
+        ObjDamage[] obstacles = FindObjectsOfType<ObjDamage>();
+        Collider2D playerCollider = GetComponent<Collider2D>();
+        
+        foreach (ObjDamage obstacle in obstacles)
+        {
+            Collider2D obstacleCollider = obstacle.GetComponent<Collider2D>();
+            if (obstacleCollider != null)
+            {
+                // Bật lại collision
+                Physics2D.IgnoreCollision(playerCollider, obstacleCollider, false);
+            }
         }
     }
 }
