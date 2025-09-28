@@ -5,11 +5,30 @@ public class ObjDamage : MonoBehaviour
     public int damage;
     public float knockbackForce = 3f;
     public float knockbackDuration = 0.3f;
+    
+    // Tham chiếu đến CheatManager
+    private CheatManager cheatManager;
+    
+    void Start()
+    {
+        // Tìm CheatManager
+        if (cheatManager == null)
+        {
+            cheatManager = FindFirstObjectByType<CheatManager>();
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            // Kiểm tra cheat mode - nếu bật thì không gây damage và knockback
+            if (cheatManager != null && cheatManager.IsCheatModeActive())
+            {
+                Debug.Log("Cheat mode bật - chướng ngại vật không gây sát thương!");
+                return;
+            }
+            
             var player = collision.gameObject.GetComponent<Player>();
             var playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
             

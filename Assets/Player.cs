@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
 
     public HealthBar healthBar;
     public GameManager gameManager;
+    
+    // Tham chiếu đến CheatManager
+    private CheatManager cheatManager;
 
     void Start()
     {
@@ -19,6 +22,12 @@ public class Player : MonoBehaviour
         if (gameManager == null)
         {
             gameManager = FindFirstObjectByType<GameManager>();
+        }
+        
+        // Tìm CheatManager
+        if (cheatManager == null)
+        {
+            cheatManager = FindFirstObjectByType<CheatManager>();
         }
     }
 
@@ -36,6 +45,13 @@ public class Player : MonoBehaviour
 
      public void TakeDamage(int damage)
     {
+        // Kiểm tra cheat mode - nếu bật thì không mất máu
+        if (cheatManager != null && cheatManager.IsCheatModeActive())
+        {
+            Debug.Log("Cheat mode bật - không mất máu!");
+            return;
+        }
+        
         currentHealth -= damage;
         if (currentHealth < 0)
         {
