@@ -56,6 +56,12 @@ public class GameManager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0f; // Dừng thời gian của game
 
+        // Pause âm thanh
+        if (audioManager != null)
+        {
+            audioManager.PauseAudio();
+        }
+
         menuPanel.SetActive(true);
         currentMenuInstance = Instantiate(pauseMenuPrefab, menuPanel.transform);
 
@@ -78,6 +84,12 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f; // Cho thời gian chạy lại bình thường
+
+        // Resume âm thanh
+        if (audioManager != null)
+        {
+            audioManager.ResumeAudio();
+        }
 
         menuPanel.SetActive(false);
         if (currentMenuInstance != null)
@@ -113,37 +125,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
-    // --- WIN GAME LOGIC ---
-    public void WinGame()
+    // --- BUTTON FUNCTIONS ---
+    public void RestartGame()
     {
-        if (isGameOver) return;
-        if (audioManager != null)
-            audioManager.PlaySFX(audioManager.finish);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
-        isGameOver = true;
-        Time.timeScale = 0f; // Pause everything
-
-
-
-        menuPanel.SetActive(true);
-        currentMenuInstance = Instantiate(gameOverMenuPrefab, menuPanel.transform);
-
-        Button[] buttons = currentMenuInstance.GetComponentsInChildren<Button>();
-        foreach (var btn in buttons)
-        {
-            if (btn.name.Contains("Restart"))
-            {
-                btn.onClick.AddListener(RestartGame);
-            }
-            else if (btn.name.Contains("Quit"))
-            {
-                btn.onClick.AddListener(GoToMainMenu);
-            }
-        }
+    public void GoToMainMenu()
+    {
+        // Luôn nhớ set lại timeScale trước khi chuyển scene
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Main Menu");
     }
 }
-
-
-

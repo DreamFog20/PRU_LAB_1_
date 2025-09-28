@@ -41,6 +41,9 @@ public class CheckpointScript : MonoBehaviour
                 playerInput.enabled = false;
             }
 
+            // Dừng game
+            Time.timeScale = 0f;
+
             // Show end game screen
             if (endGameScreen != null)
             {

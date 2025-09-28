@@ -25,6 +25,7 @@ public class FInishScript : MonoBehaviour
 
     void RestartGame()
     {
+        Time.timeScale = 1f; // Reset timeScale trước khi restart
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
