@@ -54,6 +54,13 @@ public class PlayerMovement : MonoBehaviour
         {
             UnityEngine.Debug.LogWarning("No GameObject with 'Audio' tag found. AudioManager will be null.");
         }
+        
+        // Find CoinManager with null check
+        cm = FindObjectOfType<CoinManager>();
+        if (cm == null)
+        {
+            UnityEngine.Debug.LogWarning("No CoinManager found in scene. Coin counting will not work.");
+        }
 
         // Ensure groundCheckPos is assigned to avoid null reference exceptions
         if (groundCheckPos == null)
@@ -188,7 +195,8 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Banh Mi"))
         {
             Destroy(other.gameObject);
-            cm.coinCount++;
+            if (cm != null)
+                cm.coinCount++;
             if (audioManager != null)
                 audioManager.PlaySFX(audioManager.coin);
         }
