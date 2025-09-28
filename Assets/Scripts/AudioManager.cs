@@ -24,28 +24,4 @@ public class AudioManager : MonoBehaviour
     {
         SFXSource.PlayOneShot(clip);
     }
-
-    public void PauseAudio()
-    {
-        if (musicSource != null && musicSource.isPlaying)
-        {
-            musicSource.Pause();
-        }
-        if (SFXSource != null && SFXSource.isPlaying)
-        {
-            SFXSource.Pause();
-        }
-    }
-
-    public void ResumeAudio()
-    {
-        if (musicSource != null)
-        {
-            musicSource.UnPause();
-        }
-        if (SFXSource != null)
-        {
-            SFXSource.UnPause();
-        }
-    }
 }
