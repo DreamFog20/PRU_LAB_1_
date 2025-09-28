@@ -7,7 +7,6 @@ public class CheckpointScript : MonoBehaviour
     [Header("Assign the End Game Screen UI in Inspector")]
     public GameObject endGameScreen;
     AudioManager audioManager;
-    GameManager gameManager;
 
     private bool triggered = false;
     private PlayerInput playerInput;
@@ -24,13 +23,6 @@ public class CheckpointScript : MonoBehaviour
         {
             UnityEngine.Debug.LogWarning("No GameObject with 'Audio' tag found. AudioManager will be null.");
         }
-
-        // Find GameManager
-        gameManager = FindFirstObjectByType<GameManager>();
-        if (gameManager == null)
-        {
-            UnityEngine.Debug.LogWarning("No GameManager found in scene.");
-        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -39,7 +31,9 @@ public class CheckpointScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             triggered = true;
-            
+            if (audioManager != null)
+                audioManager.PlaySFX(audioManager.finish);
+
             // Disable player input
             playerInput = other.GetComponent<PlayerInput>();
             if (playerInput != null)
@@ -47,18 +41,10 @@ public class CheckpointScript : MonoBehaviour
                 playerInput.enabled = false;
             }
 
-            // Call GameManager to handle win condition and pause everything
-            if (gameManager != null)
+            // Show end game screen
+            if (endGameScreen != null)
             {
-                gameManager.WinGame();
-            }
-            else
-            {
-                // Fallback: show end game screen if GameManager not found
-                if (endGameScreen != null)
-                {
-                    endGameScreen.SetActive(true);
-                }
+                endGameScreen.SetActive(true);
             }
         }
     }
