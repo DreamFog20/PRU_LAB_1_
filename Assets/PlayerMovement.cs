@@ -31,6 +31,10 @@ public class PlayerMovement : MonoBehaviour
     public float fallSpeedMultiplier = 2f;
     public CoinManager cm;
 
+    [Header("Knockback")]
+    private bool isKnockedBack = false;
+    private float knockbackTimer = 0f;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -70,8 +74,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if (rb == null) return;
 
-        // Apply horizontal movement
-        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+        // Handle knockback timer
+        if (isKnockedBack)
+        {
+            knockbackTimer -= Time.deltaTime;
+            if (knockbackTimer <= 0f)
+            {
+                isKnockedBack = false;
+            }
+        }
+
+        // Apply horizontal movement only if not knocked back
+        if (!isKnockedBack)
+        {
+            rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+        }
 
         // Flip sprite based on movement direction
         if (horizontalMovement > 0)
@@ -133,6 +150,15 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.white;
         Gizmos.DrawCube(groundCheckPos.position, groundCheckSize);
+    }
+
+    public void ApplyKnockback(Vector2 direction, float force, float duration)
+    {
+        isKnockedBack = true;
+        knockbackTimer = duration;
+        
+        // Apply knockback force
+        rb.linearVelocity = new Vector2(direction.x * force, direction.y * force);
     }
 
     void OnTriggerEnter2D(Collider2D other)

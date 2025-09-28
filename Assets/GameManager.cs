@@ -56,6 +56,12 @@ public class GameManager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0f; // Dừng thời gian của game
 
+        // Pause âm thanh
+        if (audioManager != null)
+        {
+            audioManager.PauseAudio();
+        }
+
         menuPanel.SetActive(true);
         currentMenuInstance = Instantiate(pauseMenuPrefab, menuPanel.transform);
 
@@ -78,6 +84,12 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f; // Cho thời gian chạy lại bình thường
+
+        // Resume âm thanh
+        if (audioManager != null)
+        {
+            audioManager.ResumeAudio();
+        }
 
         menuPanel.SetActive(false);
         if (currentMenuInstance != null)
