@@ -227,4 +227,31 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    
+    // Method để CheatManager gọi để tắt/bật collision với tất cả chướng ngại vật
+    public void SetIgnoreAllObstacles(bool ignore)
+    {
+        // Tìm tất cả chướng ngại vật có component ObjDamage
+        ObjDamage[] obstacles = FindObjectsOfType<ObjDamage>();
+        Collider2D playerCollider = GetComponent<Collider2D>();
+        
+        foreach (ObjDamage obstacle in obstacles)
+        {
+            Collider2D obstacleCollider = obstacle.GetComponent<Collider2D>();
+            if (obstacleCollider != null)
+            {
+                // Tắt hoặc bật collision
+                Physics2D.IgnoreCollision(playerCollider, obstacleCollider, ignore);
+            }
+        }
+        
+        if (ignore)
+        {
+            UnityEngine.Debug.Log("Cheat mode: Tắt collision với tất cả chướng ngại vật!");
+        }
+        else
+        {
+            UnityEngine.Debug.Log("Cheat mode: Bật lại collision với tất cả chướng ngại vật!");
+        }
+    }
 }
