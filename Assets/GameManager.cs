@@ -125,6 +125,39 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // --- WIN GAME LOGIC ---
+    public void WinGame()
+    {
+        if (isGameOver) return;
+        if (audioManager != null)
+            audioManager.PlaySFX(audioManager.finish);
+
+        isGameOver = true;
+        Time.timeScale = 0f; // Pause everything
+
+        // Pause âm thanh
+        if (audioManager != null)
+        {
+            audioManager.PauseAudio();
+        }
+
+        menuPanel.SetActive(true);
+        currentMenuInstance = Instantiate(gameOverMenuPrefab, menuPanel.transform);
+
+        Button[] buttons = currentMenuInstance.GetComponentsInChildren<Button>();
+        foreach (var btn in buttons)
+        {
+            if (btn.name.Contains("Restart"))
+            {
+                btn.onClick.AddListener(RestartGame);
+            }
+            else if (btn.name.Contains("Quit"))
+            {
+                btn.onClick.AddListener(GoToMainMenu);
+            }
+        }
+    }
+
     // --- BUTTON FUNCTIONS ---
     public void RestartGame()
     {

@@ -838,6 +838,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1.8548889
       objectReference: {fileID: 0}
+    - target: {fileID: 9063030389757933935, guid: e8c0c9c1565cefc429b1d2ffe6783dfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1078068605}
+    - target: {fileID: 9063030389757933935, guid: e8c0c9c1565cefc429b1d2ffe6783dfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063030389757933935, guid: e8c0c9c1565cefc429b1d2ffe6783dfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -2464,6 +2476,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2525911983a5a73448fd91b80c308ca8, type: 3}
+--- !u!1 &1078068605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5827799595636808254, guid: e8c0c9c1565cefc429b1d2ffe6783dfa, type: 3}
+  m_PrefabInstance: {fileID: 347492494}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1095024003
 GameObject:
   m_ObjectHideFlags: 0
@@ -2938,6 +2955,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjDamage
   damage: 50
+  knockbackForce: 3
+  knockbackDuration: 0.3
 --- !u!212 &1320938445
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3024,6 +3043,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjDamage
   damage: 20
+  knockbackForce: 3
+  knockbackDuration: 0.3
 --- !u!1 &1321850591
 GameObject:
   m_ObjectHideFlags: 0
