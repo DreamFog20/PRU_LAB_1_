@@ -54,6 +54,13 @@ public class PlayerMovement : MonoBehaviour
         {
             UnityEngine.Debug.LogWarning("No GameObject with 'Audio' tag found. AudioManager will be null.");
         }
+        
+        // Find CoinManager with null check
+        cm = FindObjectOfType<CoinManager>();
+        if (cm == null)
+        {
+            UnityEngine.Debug.LogWarning("No CoinManager found in scene. Coin counting will not work.");
+        }
 
         // Ensure groundCheckPos is assigned to avoid null reference exceptions
         if (groundCheckPos == null)
@@ -188,7 +195,8 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Banh Mi"))
         {
             Destroy(other.gameObject);
-            cm.coinCount++;
+            if (cm != null)
+                cm.coinCount++;
             if (audioManager != null)
                 audioManager.PlaySFX(audioManager.coin);
         }
@@ -225,6 +233,33 @@ public class PlayerMovement : MonoBehaviour
                 // Bật lại collision
                 Physics2D.IgnoreCollision(playerCollider, obstacleCollider, false);
             }
+        }
+    }
+    
+    // Method để CheatManager gọi để tắt/bật collision với tất cả chướng ngại vật
+    public void SetIgnoreAllObstacles(bool ignore)
+    {
+        // Tìm tất cả chướng ngại vật có component ObjDamage
+        ObjDamage[] obstacles = FindObjectsOfType<ObjDamage>();
+        Collider2D playerCollider = GetComponent<Collider2D>();
+        
+        foreach (ObjDamage obstacle in obstacles)
+        {
+            Collider2D obstacleCollider = obstacle.GetComponent<Collider2D>();
+            if (obstacleCollider != null)
+            {
+                // Tắt hoặc bật collision
+                Physics2D.IgnoreCollision(playerCollider, obstacleCollider, ignore);
+            }
+        }
+        
+        if (ignore)
+        {
+            UnityEngine.Debug.Log("Cheat mode: Tắt collision với tất cả chướng ngại vật!");
+        }
+        else
+        {
+            UnityEngine.Debug.Log("Cheat mode: Bật lại collision với tất cả chướng ngại vật!");
         }
     }
 }

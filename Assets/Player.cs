@@ -17,7 +17,16 @@ public class Player : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        
+        // Kiểm tra healthBar trước khi sử dụng
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
+        }
+        else
+        {
+            Debug.LogWarning("HealthBar not assigned! Player health will not be displayed.");
+        }
 
         if (gameManager == null)
         {
@@ -45,6 +54,9 @@ public class Player : MonoBehaviour
 
      public void TakeDamage(int damage)
     {
+        // Debug để kiểm tra
+        Debug.Log($"TakeDamage called: damage={damage}, cheatManager={cheatManager != null}, isCheatMode={cheatManager?.IsCheatModeActive()}");
+        
         // Kiểm tra cheat mode - nếu bật thì không mất máu
         if (cheatManager != null && cheatManager.IsCheatModeActive())
         {
@@ -52,6 +64,7 @@ public class Player : MonoBehaviour
             return;
         }
         
+        Debug.Log($"Mất máu: {damage} điểm");
         currentHealth -= damage;
         if (currentHealth < 0)
         {
@@ -82,4 +95,13 @@ public class Player : MonoBehaviour
             Debug.LogError("GameManager not found!");
         }
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Banh Mi"))
+        {
+            FindFirstObjectByType<CoinManager>().AddCoin();
+            Destroy(other.gameObject);
+        }
+    }
+
 }

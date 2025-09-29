@@ -1,19 +1,19 @@
-# 🎮 Endless Runner Game với Cheat System
+# Runner Game với Cheat System
 
-Một game endless runner 2D được phát triển bằng Unity với hệ thống cheat tích hợp sẵn.
+Một game runner 2D được phát triển bằng Unity với hệ thống cheat tích hợp sẵn.
 
 ## ✨ Tính năng chính
 
 ### 🎯 Gameplay
 
-- **Endless Runner**: Chạy vô tận qua các chướng ngại vật
+- **Runner**: Chạy qua các chướng ngại vật
 - **Hệ thống máu**: Player có máu và có thể chết khi va chạm
 - **Thu thập coin**: Thu thập "Bánh Mì" để tăng điểm
 - **Knockback system**: Bị đẩy lùi khi va chạm với chướng ngại vật
 
 ### 🛡️ Cheat System
 
-- **Bấm TAB** để bật/tắt cheat mode
+- **TAB** để bật/tắt cheat mode
 - **Không mất máu** khi va chạm với chướng ngại vật
 - **Đi xuyên qua chướng ngại vật** mà không bị cản trở
 - **Không bị knockback** khi va chạm
@@ -35,7 +35,7 @@ git clone https://github.com/DreamFog20/PRU_LAB_1_.git
 ```
 
 2. Mở project trong Unity Editor
-3. Mở scene `MainGame 2` trong thư mục `Assets/Scenes/`
+3. Mở scene `MainGame 2` trong thư mục `Assets/`
 4. Nhấn Play để chạy game
 
 ## 🎮 Hướng dẫn chơi

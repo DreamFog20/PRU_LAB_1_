@@ -51,6 +51,12 @@ public class CheatManager : MonoBehaviour
         {
             ToggleCheatMode();
         }
+        
+        // Tìm PlayerMovement nếu chưa có (cho trường hợp spawn sau)
+        if (playerMovement == null)
+        {
+            playerMovement = FindFirstObjectByType<PlayerMovement>();
+        }
     }
     
     public void ToggleCheatMode()
@@ -60,6 +66,17 @@ public class CheatManager : MonoBehaviour
         
         // Log để debug
         Debug.Log($"Cheat Mode: {(isCheatMode ? "BẬT" : "TẮT")}");
+        
+        // Nếu bật cheat mode, tắt collision với tất cả chướng ngại vật ngay lập tức
+        if (isCheatMode && playerMovement != null)
+        {
+            playerMovement.SetIgnoreAllObstacles(true);
+        }
+        // Nếu tắt cheat mode, bật lại collision
+        else if (!isCheatMode && playerMovement != null)
+        {
+            playerMovement.SetIgnoreAllObstacles(false);
+        }
         
         // Có thể thêm âm thanh hoặc hiệu ứng khác ở đây
     }
