@@ -22,6 +22,8 @@ public class ObjDamage : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log($"ObjDamage collision: cheatManager={cheatManager != null}, isCheatMode={cheatManager?.IsCheatModeActive()}");
+            
             // Kiểm tra cheat mode - nếu bật thì không gây damage và knockback
             if (cheatManager != null && cheatManager.IsCheatModeActive())
             {
@@ -29,6 +31,7 @@ public class ObjDamage : MonoBehaviour
                 return;
             }
             
+            Debug.Log("Gây sát thương cho player!");
             var player = collision.gameObject.GetComponent<Player>();
             var playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
             
