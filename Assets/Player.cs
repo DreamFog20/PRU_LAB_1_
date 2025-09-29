@@ -99,9 +99,17 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Banh Mi"))
         {
+            Debug.Log("Chạm vào bánh mì: " + other.gameObject.name);
             FindFirstObjectByType<CoinManager>().AddCoin();
+            
+            // Phát âm thanh coin
+            AudioManager audioManager = FindFirstObjectByType<AudioManager>();
+            if (audioManager != null)
+                audioManager.PlaySFX(audioManager.coin);
+            
             Destroy(other.gameObject);
         }
+        
     }
 
 }

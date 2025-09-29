@@ -190,17 +190,6 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(direction.x * force, direction.y * force);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Banh Mi"))
-        {
-            Destroy(other.gameObject);
-            if (cm != null)
-                cm.coinCount++;
-            if (audioManager != null)
-                audioManager.PlaySFX(audioManager.coin);
-        }
-    }
     
     // Xử lý collision với chướng ngại vật
     void OnCollisionEnter2D(Collision2D collision)
