@@ -34,9 +34,9 @@ Một game runner 2D được phát triển bằng Unity với hệ thống chea
 git clone https://github.com/DreamFog20/PRU_LAB_1_.git
 ```
 
-2. Mở project trong Unity Editor
-3. Mở scene `MainGame 2` trong thư mục `Assets/`
-4. Nhấn Play để chạy game
+2. Mở project PRU_LAB_1
+3. Tìm tới file SaiGonStreetRunner 1.0.exe 
+4. Double click vào file .exe để chạy game
 
 ## 🎮 Hướng dẫn chơi
 
